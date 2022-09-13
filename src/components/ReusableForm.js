@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 function ReusableForm(props) {
   return (
     <React.Fragment>
-      <form>
+      <form onSubmit={props.formSubmissionHandler}>
         <input 
           type="text"
           name="subject"
@@ -18,21 +18,18 @@ function ReusableForm(props) {
           name="voteCount"
           value= "0"
           hidden />
-        <input 
-          type="datetime"
-          name="timestamp"
-          />
         <textarea
           name="comment"
           placeholder="Type your comment here" />
-        <button type="submit">submit</button>
+        <button type="submit">{props.buttonText}</button>
       </form>
     </React.Fragment>
   )
 }
 
 ReusableForm.propTypes = {
-
+  formSubmissionHandler: PropTypes.func,
+  buttonText: PropTypes.string
 }
 
 export default ReusableForm;
