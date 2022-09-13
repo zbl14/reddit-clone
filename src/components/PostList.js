@@ -1,45 +1,30 @@
 import React from "react";
 import Post from "./Post";
+import PropTypes from "prop-types";
 
-const mainPostList = [
-  {
-    name: "Ben",
-    subject: "Food I like",
-    comment: "I like ice-cream",
-    voteCount: 5,
-    timestamp: "09/13/2022",
-  }, 
-  {
-    name: "Ryan",
-    subject: "Game I like",
-    comment: "I like warzone",
-    voteCount: 6,
-    timestamp: "09/13/2022",
-  }, 
-  {
-    name: "Tom",
-    subject: "Game I like",
-    comment: "I like topwar",
-    voteCount: 6,
-    timestamp: "09/13/2022",
-  }
-];
-
-const PostList = () => {
+const PostList = (props) => {
   return (
     <React.Fragment>    
       <hr/>
-      {mainPostList.map((post, index) => 
-        <Post 
+      {Object.values(props.postList).map((post) => 
+        <Post
+          whenPostClicked= {props.onPostSelection}
           name = {post.name}
           subject = {post.subject}
           comment = {post.comment}
           voteCount = {post.voteCount}
           timestamp = {post.timestamp}
+          id = {post.id}
+          key = {post.id}
           />
       )}
     </React.Fragment>
   );
 };
+
+PostList.propTypes = {
+  postList: PropTypes.object,
+  onPostSelection: PropTypes.func,
+}
 
 export default PostList;
