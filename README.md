@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+## Component Tree
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![ComponentTree](/src/img/componentDiagram.drawio.svg)
 
 ## Available Scripts
 
