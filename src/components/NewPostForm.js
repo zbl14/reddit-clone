@@ -18,19 +18,20 @@ const NewPostForm = (props) => {
         addSuffix: true,
       }),
     });
-  }
+  };
 
-  return(
+  return (
     <React.Fragment>
       <ReusableForm
-      formSubmissionHandler={handleNewPostFormSubmission}
-      buttonText= "Post" />
+        formSubmissionHandler={handleNewPostFormSubmission}
+        buttonText="Post"
+      />
     </React.Fragment>
   );
 };
 
 NewPostForm.propTypes = {
-  onNewPostCreation: PropTypes.func
+  onNewPostCreation: PropTypes.func,
 };
 
 export default NewPostForm;
