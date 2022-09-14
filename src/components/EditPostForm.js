@@ -11,7 +11,7 @@ const EditPostForm = (props) => {
       name:event.target.name.value,
       subject:event.target.subject.value,
       comment:event.target.comment.value,
-      voteCount: parseInt(event.target.voteCount.value),
+      voteCount: post.voteCount,
       timestamp: formatDistanceToNow(new Date(), {addSuffix: true}),
       id: post.id
     })

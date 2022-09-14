@@ -5,6 +5,7 @@ import PostDetail from "./PostDetail";
 import EditPostForm from "./EditPostForm";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import * as a from "./../actions";
 
 class PostControl extends React.Component{
   constructor(props) {
@@ -14,6 +15,21 @@ class PostControl extends React.Component{
         selectedPost: null,
         editPost: false,
       };
+    }
+
+    componentDidMount() {
+      this.waitTimeUpdateTimer = setInterval(() =>
+        this.updateTicketElapsedWaitTime(),
+      60000
+      );
+    }
+
+    componentWillUnmount(){
+      clearInterval(this.waitTimeUpdateTimer);
+    }
+
+    updateTicketElapsedWaitTime = () => {
+      console.log("tick");
     }
 
     handleClick = () => {
@@ -32,16 +48,7 @@ class PostControl extends React.Component{
     
     handleAddingNewPostToList = (newPost) => {
       const { dispatch } = this.props;
-      const { name, subject, comment, voteCount, timestamp, id } = newPost;
-      const action = {
-        type: 'ADD_POST',
-        name: name,
-        subject: subject,
-        comment: comment,
-        voteCount: voteCount,
-        timestamp: timestamp,
-        id: id
-      }
+      const action = a.addPost(newPost);
       dispatch(action);
       this.setState({formVisible: false});
     }
@@ -53,10 +60,7 @@ class PostControl extends React.Component{
 
     handleDeletingPost = (id) => {
       const {dispatch} = this.props;
-      const action = { 
-        type: 'DELETE_POST',
-        id: id,
-      };
+      const action= a.deletePost(id);
       dispatch(action);
       this.setState({ selectedPost: null });
     };
@@ -67,16 +71,7 @@ class PostControl extends React.Component{
 
     handleEditingPostInList = (postToEdit)=>{
       const {dispatch} = this.props;
-      const { id, name, subject, comment, voteCount, timestamp} = postToEdit;
-      const action = {
-        type:"ADD_POST",
-        id: id,
-        name: name,
-        subject: subject,
-        comment: comment,
-        voteCount: voteCount,
-        timestamp: timestamp,
-      };
+      const action = a.addPost(postToEdit);
       dispatch(action);
       this.setState({ editing: false, selectedPost: null });
     }
