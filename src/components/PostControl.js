@@ -68,7 +68,6 @@ class PostControl extends React.Component {
 
   handleDeletingPost = (id) => {
     const { dispatch } = this.props;
-    console.log(id);
     const action = a.deletePost(id);
     dispatch(action);
     this.setState({ selectedPost: null });
@@ -90,7 +89,6 @@ class PostControl extends React.Component {
     const Upvoted = voteCount + 1;
     const action = a.upvote(id, Upvoted);
     dispatch(action);
-    console.log(this.props.mainPostList[id]);
     const newSelectedPost = {
       ...this.props.mainPostList[id],
       ...{ voteCount: voteCount + 1 },
@@ -143,6 +141,9 @@ class PostControl extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
+  // console.log(state.sort((a, b) => b.voteCount - a.voteCount));
+  console.log(Object.values(state).sort((a, b) => b.voteCount - a.voteCount));
   return {
     mainPostList: state,
   };
