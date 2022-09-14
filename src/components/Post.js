@@ -15,7 +15,7 @@ const Post = (props) => {
         </p>
         <h3>Name: {props.name}</h3>
         <h3>Comment: {props.comment}</h3>
-        <h3>Vote Count: {props.voteCount}</h3>
+        <hr />
       </div>
     </React.Fragment>
   );

@@ -8,131 +8,150 @@ import PropTypes from "prop-types";
 import * as a from "./../actions";
 import { formatDistanceToNow } from "date-fns";
 
-class PostControl extends React.Component{
+class PostControl extends React.Component {
   constructor(props) {
     super(props);
-      this.state = {
+    this.state = {
+      formVisible: false,
+      selectedPost: null,
+      editPost: false,
+    };
+  }
+
+  componentDidMount() {
+    this.waitTimeUpdateTimer = setInterval(
+      () => this.updatePostElapsedWaitTime(),
+      60000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.waitTimeUpdateTimer);
+  }
+
+  updatePostElapsedWaitTime = () => {
+    const { dispatch } = this.props;
+    Object.values(this.props.mainPostList).forEach((post) => {
+      const newFormattedWaitTime = formatDistanceToNow(post.timeOpen, {
+        addSuffix: true,
+      });
+      const action = a.updateTime(post.id, newFormattedWaitTime);
+      dispatch(action);
+    });
+  };
+
+  handleClick = () => {
+    if (this.state.selectedPost !== null) {
+      this.setState({
         formVisible: false,
         selectedPost: null,
-        editPost: false,
-      };
-    }
-
-    componentDidMount() {
-      this.waitTimeUpdateTimer = setInterval(
-        () => this.updatePostElapsedWaitTime(),
-        1000
-      );
-    }
-
-    componentWillUnmount() {
-      clearInterval(this.waitTimeUpdateTimer);
-    }
-
-    updatePostElapsedWaitTime = () => {
-      const { dispatch } = this.props;
-      Object.values(this.props.mainPostList).forEach((post) => {
-        const newFormattedWaitTime = formatDistanceToNow(post.timeOpen, {
-          addSuffix: true,
-        });
-        const action = a.updateTime(post.id, newFormattedWaitTime);
-        dispatch(action);
+        editPost: true,
       });
-    };
-
-    handleClick = () => {
-      if(this.state.selectedPost !== null) {
-        this.setState({
-          formVisible: false,
-          selectedPost: null,
-          editPost: true,
-        });
-      } else {
+    } else {
       this.setState((prevState) => ({
         formVisible: !prevState.formVisible,
-        }));
-      }
+      }));
     }
-    
-    handleAddingNewPostToList = (newPost) => {
-      const { dispatch } = this.props;
-      const action = a.addPost(newPost);
-      dispatch(action);
-      this.setState({formVisible: false});
-    }
+  };
 
-    handleChangingSelectedPost = (id) => {
-      const selectedPost = this.props.mainPostList[id];
-      this.setState({ selectedPost: selectedPost });
+  handleAddingNewPostToList = (newPost) => {
+    const { dispatch } = this.props;
+    const action = a.addPost(newPost);
+    dispatch(action);
+    this.setState({ formVisible: false });
+  };
+
+  handleChangingSelectedPost = (id) => {
+    const selectedPost = this.props.mainPostList[id];
+    this.setState({ selectedPost: selectedPost });
+  };
+
+  handleDeletingPost = (id) => {
+    const { dispatch } = this.props;
+    console.log(id);
+    const action = a.deletePost(id);
+    dispatch(action);
+    this.setState({ selectedPost: null });
+  };
+
+  handleEditClick = () => {
+    this.setState({ editing: true });
+  };
+
+  handleEditingPostInList = (postToEdit) => {
+    const { dispatch } = this.props;
+    const action = a.addPost(postToEdit);
+    dispatch(action);
+    this.setState({ editing: false, selectedPost: null });
+  };
+
+  handleClickUpvote = (id, voteCount) => {
+    const { dispatch } = this.props;
+    const Upvoted = voteCount + 1;
+    const action = a.upvote(id, Upvoted);
+    dispatch(action);
+    console.log(this.props.mainPostList[id]);
+    const newSelectedPost = {
+      ...this.props.mainPostList[id],
+      ...{ voteCount: voteCount + 1 },
     };
+    this.setState({ selectedPost: newSelectedPost });
+  };
 
-    handleDeletingPost = (id) => {
-      const {dispatch} = this.props;
-      const action= a.deletePost(id);
-      dispatch(action);
-      this.setState({ selectedPost: null });
-    };
-
-    handleEditClick = ()=> {
-      this.setState({ editing: true });
-    };
-
-    handleEditingPostInList = (postToEdit)=>{
-      const {dispatch} = this.props;
-      const action = a.addPost(postToEdit);
-      dispatch(action);
-      this.setState({ editing: false, selectedPost: null });
-    }
-
-    render(){
-      let curVisibleState = null;
-      let buttonText = null;
-      if(this.state.editing){
-        curVisibleState = (
-          <EditPostForm 
-            post={this.state.selectedPost}
-            onEditPost={this.handleEditingPostInList}
-          />
-        );
-        buttonText = "Edit Post";
-      } else if (this.state.selectedPost != null){
-        curVisibleState = 
-          <PostDetail 
-            post={this.state.selectedPost}
-            onClickingEdit={this.handleEditClick}
-            onClickingDelete={this.handleDeletingPost}  
-          />
-        buttonText = "Return to Post List";
-      } else if(this.state.formVisible){
-        curVisibleState=<NewPostForm onNewPostCreation = {this.handleAddingNewPostToList}/>;
-        buttonText = "Return to Post List";
-      } else {
-        curVisibleState=(
-          <PostList 
-            postList={this.props.mainPostList}
-            onPostSelection = {this.handleChangingSelectedPost}
-          />)
-        buttonText = "New Post";
-      }
-      return(
-        <React.Fragment>
-          {curVisibleState}
-          <button onClick={this.handleClick}>{buttonText}</button>
-        </React.Fragment>
+  render() {
+    let curVisibleState = null;
+    let buttonText = null;
+    if (this.state.editing) {
+      curVisibleState = (
+        <EditPostForm
+          post={this.state.selectedPost}
+          onEditPost={this.handleEditingPostInList}
+        />
       );
-    };
+      buttonText = "Edit Post";
+    } else if (this.state.selectedPost != null) {
+      curVisibleState = (
+        <PostDetail
+          post={this.state.selectedPost}
+          onClickingEdit={this.handleEditClick}
+          onClickingDelete={this.handleDeletingPost}
+          onClickingUpvote={this.handleClickUpvote}
+        />
+      );
+      buttonText = "Return to Post List";
+    } else if (this.state.formVisible) {
+      curVisibleState = (
+        <NewPostForm onNewPostCreation={this.handleAddingNewPostToList} />
+      );
+      buttonText = "Return to Post List";
+    } else {
+      curVisibleState = (
+        <PostList
+          postList={this.props.mainPostList}
+          onPostSelection={this.handleChangingSelectedPost}
+        />
+      );
+      buttonText = "New Post";
+    }
+    return (
+      <React.Fragment>
+        {curVisibleState}
+        <button onClick={this.handleClick}>{buttonText}</button>
+      </React.Fragment>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
-    mainPostList: state
-  }
-}
+    mainPostList: state,
+  };
+};
 
 PostControl = connect(mapStateToProps)(PostControl);
 
 PostControl.propTypes = {
-  mainPostList: PropTypes.object
+  mainPostList: PropTypes.object,
 };
 
 export default PostControl;
