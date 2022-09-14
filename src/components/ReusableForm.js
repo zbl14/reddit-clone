@@ -13,11 +13,6 @@ function ReusableForm(props) {
           type="text"
           name="name"
           placeholder="Name" />
-        <input
-          type="number"
-          name="voteCount"
-          value= "0"
-          hidden />
         <textarea
           name="comment"
           placeholder="Type your comment here" />

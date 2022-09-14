@@ -11,10 +11,13 @@ const NewPostForm = (props) => {
       name: event.target.name.value,
       subject: event.target.subject.value,
       comment: event.target.comment.value,
-      voteCount: parseInt(event.target.voteCount.value),
-      timestamp: formatDistanceToNow(new Date(), {addSuffix: true}),
-      id: v4()
-    })
+      voteCount: 0,
+      id: v4(),
+      timeOpen: new Date(),
+      formattedWaitTime: formatDistanceToNow(new Date(), {
+        addSuffix: true,
+      }),
+    });
   }
 
   return(

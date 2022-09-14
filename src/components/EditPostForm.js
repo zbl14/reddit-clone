@@ -1,7 +1,6 @@
 import React from "react";
 import ReusableForm from "./ReusableForm";
 import PropTypes from "prop-types";
-import { formatDistanceToNow } from "date-fns";
 
 const EditPostForm = (props) => {
   const {post} = props;
@@ -12,7 +11,8 @@ const EditPostForm = (props) => {
       subject:event.target.subject.value,
       comment:event.target.comment.value,
       voteCount: post.voteCount,
-      timestamp: formatDistanceToNow(new Date(), {addSuffix: true}),
+      timeOpen: post.timeOpen,
+      formattedWaitTime: post.formattedWaitTime,
       id: post.id
     })
   };

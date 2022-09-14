@@ -6,18 +6,18 @@ const PostList = (props) => {
   return (
     <React.Fragment>    
       <hr/>
-      {Object.values(props.postList).map((post) => 
+      {Object.values(props.postList).map((post) => (
         <Post
           whenPostClicked= {props.onPostSelection}
           name = {post.name}
           subject = {post.subject}
           comment = {post.comment}
           voteCount = {post.voteCount}
-          timestamp = {post.timestamp}
+          formattedWaitTime={post.formattedWaitTime}
           id = {post.id}
           key = {post.id}
           />
-      )}
+      ))}
     </React.Fragment>
   );
 };

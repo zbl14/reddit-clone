@@ -6,6 +6,7 @@ import EditPostForm from "./EditPostForm";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as a from "./../actions";
+import { formatDistanceToNow } from "date-fns";
 
 class PostControl extends React.Component{
   constructor(props) {
@@ -18,19 +19,26 @@ class PostControl extends React.Component{
     }
 
     componentDidMount() {
-      this.waitTimeUpdateTimer = setInterval(() =>
-        this.updateTicketElapsedWaitTime(),
-      60000
+      this.waitTimeUpdateTimer = setInterval(
+        () => this.updatePostElapsedWaitTime(),
+        1000
       );
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
       clearInterval(this.waitTimeUpdateTimer);
     }
 
-    updateTicketElapsedWaitTime = () => {
-      console.log("tick");
-    }
+    updatePostElapsedWaitTime = () => {
+      const { dispatch } = this.props;
+      Object.values(this.props.mainPostList).forEach((post) => {
+        const newFormattedWaitTime = formatDistanceToNow(post.timeOpen, {
+          addSuffix: true,
+        });
+        const action = a.updateTime(post.id, newFormattedWaitTime);
+        dispatch(action);
+      });
+    };
 
     handleClick = () => {
       if(this.state.selectedPost !== null) {

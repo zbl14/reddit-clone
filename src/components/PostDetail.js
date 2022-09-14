@@ -9,7 +9,7 @@ const PostDetail = (props) => {
       <h3>{post.name}</h3>
       <h3>{post.voteCount}</h3>
       <h3>{post.comment}</h3>
-      <h3>{post.timestamp}</h3>
+      <h3>Time: {post.formattedWaitTime}</h3> 
       <button onClick={props.onClickingEdit}>Update Post</button>
       <button onClick={() => onClickingDelete(post.id)}>Delete Post</button>
       </React.Fragment>
