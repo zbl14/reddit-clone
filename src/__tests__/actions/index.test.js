@@ -39,4 +39,12 @@ describe("Reddit Clone actions", () => {
       formattedWaitTime: "less than a minute ago",
     });
   });
+
+  it("upVote should create UPVOTE action", () => {
+    expect(a.upvote(1, 1)).toEqual({
+      type: c.UPVOTE,
+      id: 1,
+      voteCount: 1,
+    });
+  });
 });

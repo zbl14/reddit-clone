@@ -114,4 +114,32 @@ describe("postList", () => {
       },
     });
   });
+
+  test("should increse voteCount by 1", () => {
+    const {
+      name,
+      subject,
+      comment,
+      voteCount,
+      timeOpen,
+      formattedWaitTime,
+      id,
+    } = postData;
+    action = {
+      type: c.UPVOTE,
+      voteCount: voteCount + 1,
+      id: id,
+    };
+    expect(postListReducer({ [id]: postData }, action)).toEqual({
+      [id]: {
+        name: name,
+        subject: subject,
+        comment: comment,
+        voteCount: voteCount + 1,
+        timeOpen: timeOpen,
+        formattedWaitTime: formattedWaitTime,
+        id: id,
+      },
+    });
+  });
 });

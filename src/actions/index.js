@@ -25,3 +25,9 @@ export const updateTime = (id, formattedWaitTime) => ({
   id: id,
   formattedWaitTime: formattedWaitTime,
 });
+
+export const upvote = (id, voteCount) => ({
+  type: c.UPVOTE,
+  id: id,
+  voteCount: voteCount,
+});
