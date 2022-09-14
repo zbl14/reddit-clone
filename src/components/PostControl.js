@@ -86,12 +86,24 @@ class PostControl extends React.Component {
 
   handleClickUpvote = (id, voteCount) => {
     const { dispatch } = this.props;
-    const Upvoted = voteCount + 1;
-    const action = a.upvote(id, Upvoted);
+    const upvoted = voteCount + 1;
+    const action = a.upvote(id, upvoted);
     dispatch(action);
     const newSelectedPost = {
       ...this.props.mainPostList[id],
       ...{ voteCount: voteCount + 1 },
+    };
+    this.setState({ selectedPost: newSelectedPost });
+  };
+
+  handleClickDownvote = (id, voteCount) => {
+    const { dispatch } = this.props;
+    const downvoted = voteCount - 1;
+    const action = a.downvote(id, downvoted);
+    dispatch(action);
+    const newSelectedPost = {
+      ...this.props.mainPostList[id],
+      ...{ voteCount: voteCount - 1 },
     };
     this.setState({ selectedPost: newSelectedPost });
   };
@@ -114,6 +126,7 @@ class PostControl extends React.Component {
           onClickingEdit={this.handleEditClick}
           onClickingDelete={this.handleDeletingPost}
           onClickingUpvote={this.handleClickUpvote}
+          onClickingDownvote={this.handleClickDownvote}
         />
       );
       buttonText = "Return to Post List";

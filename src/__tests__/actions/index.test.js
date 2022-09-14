@@ -40,9 +40,17 @@ describe("Reddit Clone actions", () => {
     });
   });
 
-  it("upVote should create UPVOTE action", () => {
+  it("upvote should create UPVOTE action", () => {
     expect(a.upvote(1, 1)).toEqual({
       type: c.UPVOTE,
+      id: 1,
+      voteCount: 1,
+    });
+  });
+
+  it("downvote should create DOWNVOTE action", () => {
+    expect(a.downvote(1, 1)).toEqual({
+      type: c.DOWNVOTE,
       id: 1,
       voteCount: 1,
     });

@@ -31,3 +31,9 @@ export const upvote = (id, voteCount) => ({
   id: id,
   voteCount: voteCount,
 });
+
+export const downvote = (id, voteCount) => ({
+  type: c.DOWNVOTE,
+  id: id,
+  voteCount: voteCount,
+});

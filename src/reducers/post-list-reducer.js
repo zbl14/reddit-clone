@@ -31,6 +31,10 @@ const reducer = (state = {}, action) => {
       const newPostUpvote = { ...state[id], ...{ voteCount } };
       const upvotedState = { ...state, ...{ [id]: newPostUpvote } };
       return upvotedState;
+    case c.DOWNVOTE:
+      const newPostDownvote = { ...state[id], ...{ voteCount } };
+      const downvotedState = { ...state, ...{ [id]: newPostDownvote } };
+      return downvotedState;
     default:
       return state;
   }
