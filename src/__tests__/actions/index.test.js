@@ -2,14 +2,15 @@ import * as a from "./../../actions";
 import * as c from "./../../actions/ActionTypes";
 
 describe("Reddit Clone actions", () => {
-  it("addPost should create ADD_POST action", ()=>{
+  it("addPost should create ADD_POST action", () => {
     expect(
       a.addPost({
         name: "Ben",
         subject: "Food I like",
         comment: "I like ice-cream",
         voteCount: 0,
-        timestamp: "09/13/2022",
+        timeOpen: 0,
+        formattedWaitTime: "less than a minute ago",
         id: 1,
       })
     ).toEqual({
@@ -18,15 +19,16 @@ describe("Reddit Clone actions", () => {
       subject: "Food I like",
       comment: "I like ice-cream",
       voteCount: 0,
-      timestamp: "09/13/2022",
+      timeOpen: 0,
+      formattedWaitTime: "less than a minute ago",
       id: 1,
     });
   });
 
-  it("deletePost should create DELETE_POST action", ()=>{
+  it("deletePost should create DELETE_POST action", () => {
     expect(a.deletePost(1)).toEqual({
       type: c.DELETE_POST,
-      id: 1
+      id: 1,
     });
   });
 

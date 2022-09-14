@@ -1,6 +1,6 @@
 import postListReducer from "../../reducers/post-list-reducer";
-import {formatDistanceToNow} from "date-fns"; 
-import * as c from "./../../actions/ActionTypes"
+import { formatDistanceToNow } from "date-fns";
+import * as c from "./../../actions/ActionTypes";
 
 describe("postList", () => {
   let action;
@@ -11,42 +11,47 @@ describe("postList", () => {
     voteCount: 5,
     timeOpen: new Date(),
     formattedWaitTime: formatDistanceToNow(new Date(), {
-      addSuffix: true
+      addSuffix: true,
     }),
-    id: 1
+    id: 1,
   };
 
   const curState = {
-   1: {
+    1: {
       name: "Ben",
       subject: "Food I like",
       comment: "I like ice-cream",
       voteCount: 5,
-      timestamp: "09/13/2022",
-    }, 
-  2: {
+    },
+    2: {
       name: "Ryan",
       subject: "Game I like",
       comment: "I like warzone",
       voteCount: 6,
-      timestamp: "09/13/2022",
-    }, 
-  3: {
+    },
+    3: {
       name: "Tom",
       subject: "Game I like",
       comment: "I like topwar",
       voteCount: 6,
-      timestamp: "09/13/2022",
-    }
+    },
   };
 
   test("should return default state if there is no action type passed into the reducer", () => {
-    expect(postListReducer({},{type:null})).toEqual({});
+    expect(postListReducer({}, { type: null })).toEqual({});
   });
 
   test("should successfully add new post to mainPostList that includes data-fns-formatted wait times", () => {
-    const { name, subject, comment, voteCount, timeOpen, formattedWaitTime, id } = postData;
-    action = { 
+    const {
+      name,
+      subject,
+      comment,
+      voteCount,
+      timeOpen,
+      formattedWaitTime,
+      id,
+    } = postData;
+    action = {
       type: c.ADD_POST,
       name: name,
       subject: subject,
@@ -54,18 +59,18 @@ describe("postList", () => {
       voteCount: voteCount,
       timeOpen: timeOpen,
       formattedWaitTime: formattedWaitTime,
-      id: id
+      id: id,
     };
     expect(postListReducer({}, action)).toEqual({
-      [id] : {
+      [id]: {
         name: name,
         subject: subject,
         comment: comment,
         voteCount: voteCount,
         timeOpen: timeOpen,
-        formattedWaitTime: 'less than a minute ago',
-        id: id
-      }
+        formattedWaitTime: "less than a minute ago",
+        id: id,
+      },
     });
   });
 
@@ -80,26 +85,24 @@ describe("postList", () => {
         subject: "Game I like",
         comment: "I like warzone",
         voteCount: 6,
-        timestamp: "09/13/2022",
-      }, 
+      },
       3: {
         name: "Tom",
         subject: "Game I like",
         comment: "I like topwar",
         voteCount: 6,
-        timestamp: "09/13/2022",
       },
     });
   });
 
-  test('should add a formatted wait time to post entry', ()=> {
-    const {name, subject, comment, voteCount, timeOpen, id} = postData;
+  test("should add a formatted wait time to post entry", () => {
+    const { name, subject, comment, voteCount, timeOpen, id } = postData;
     action = {
       type: c.UPDATE_TIME,
       formattedWaitTime: "4 minutes ago",
       id: id,
     };
-    expect(postListReducer({[id]:postData}, action)).toEqual({
+    expect(postListReducer({ [id]: postData }, action)).toEqual({
       [id]: {
         name: name,
         subject: subject,
@@ -107,8 +110,8 @@ describe("postList", () => {
         voteCount: voteCount,
         timeOpen: timeOpen,
         id: id,
-        formattedWaitTime: "4 minutes ago"
-      }
-    })
-  })
+        formattedWaitTime: "4 minutes ago",
+      },
+    });
+  });
 });
