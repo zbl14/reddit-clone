@@ -3,20 +3,20 @@ import ReusableForm from "./ReusableForm";
 import PropTypes from "prop-types";
 
 const EditPostForm = (props) => {
-  const {post} = props;
-  const handleEditPostFormSubmission = (event) =>{
+  const { post } = props;
+  const handleEditPostFormSubmission = (event) => {
     event.preventDefault();
     props.onEditPost({
-      name:event.target.name.value,
-      subject:event.target.subject.value,
-      comment:event.target.comment.value,
+      name: event.target.name.value,
+      subject: event.target.subject.value,
+      comment: event.target.comment.value,
       voteCount: post.voteCount,
       timeOpen: post.timeOpen,
       formattedWaitTime: post.formattedWaitTime,
-      id: post.id
-    })
+      id: post.id,
+    });
   };
-  return(
+  return (
     <React.Fragment>
       <ReusableForm
         formSubmissionHandler={handleEditPostFormSubmission}
@@ -28,7 +28,7 @@ const EditPostForm = (props) => {
 
 EditPostForm.propTypes = {
   post: PropTypes.object,
-  onEditPost: PropTypes.func
+  onEditPost: PropTypes.func,
 };
 
 export default EditPostForm;
