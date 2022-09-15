@@ -10,7 +10,11 @@ const PostDetail = (props) => {
       <p>Posted: {post.formattedWaitTime}</p>
       <h3>Name: {post.name}</h3>
       <h3>Comment: {post.comment}</h3>
-      <h3>Vote Count: {post.voteCount}</h3>
+      {post.voteCount < 0 ? (
+        <h3 style={{ color: "red" }}>Vote Count: {post.voteCount}</h3>
+      ) : (
+        <h3 style={{ color: "black" }}>Vote Count: {post.voteCount}</h3>
+      )}
       <button onClick={() => onClickingUpvote(post.id, post.voteCount)}>
         Upvote
       </button>
