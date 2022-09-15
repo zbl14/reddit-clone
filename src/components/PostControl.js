@@ -154,11 +154,14 @@ class PostControl extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
-  // console.log(state.sort((a, b) => b.voteCount - a.voteCount));
-  console.log(Object.values(state).sort((a, b) => b.voteCount - a.voteCount));
+  let sortedstate = {};
+  Object.keys(state)
+    .sort((a, b) => state[b].voteCount - state[a].voteCount)
+    .forEach((key) => {
+      sortedstate[key] = state[key];
+    });
   return {
-    mainPostList: state,
+    mainPostList: sortedstate,
   };
 };
 
