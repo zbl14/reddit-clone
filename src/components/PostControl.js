@@ -14,7 +14,7 @@ class PostControl extends React.Component {
     this.state = {
       formVisible: false,
       selectedPost: null,
-      editPost: false,
+      editing: false,
     };
   }
 
@@ -45,7 +45,7 @@ class PostControl extends React.Component {
       this.setState({
         formVisible: false,
         selectedPost: null,
-        editPost: true,
+        editing: false,
       });
     } else {
       this.setState((prevState) => ({
@@ -118,7 +118,7 @@ class PostControl extends React.Component {
           onEditPost={this.handleEditingPostInList}
         />
       );
-      buttonText = "Edit Post";
+      buttonText = "Return to Post List";
     } else if (this.state.selectedPost != null) {
       curVisibleState = (
         <PostDetail
